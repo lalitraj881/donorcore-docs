@@ -1319,7 +1319,7 @@ If the admin dashboard is slow:
 
 If you encounter issues not covered here:
 
-1. Check DonorCore [GitHub Issues](https://github.com/yourusername/donorcore/issues)
+1. Check DonorCore [GitHub Issues](mailto:lalitraj881@gmail.com)
 2. Read WordPress.org support forum
 3. Contact support with:
    - WordPress version
