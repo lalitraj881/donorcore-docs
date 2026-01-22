@@ -55,6 +55,7 @@
 | **PHP** | 7.4 or higher |
 | **WooCommerce** | 8.0 or higher |
 | **PHP Extensions** | mbstring (for PDF generation) |
+| **Email** | SMTP configuration required for receipt emails |
 
 ### Recommended Requirements
 
@@ -118,7 +119,31 @@ After activation, you should see a new **DonorCore** menu in your WordPress admi
 4. Configure suggested donation amounts (e.g., 25, 50, 100, 250)
 5. Click **Save Settings**
 
-### Step 3: Create Your First Campaign
+### Step 3: Configure SMTP for Email Receipts
+
+> **⚠️ Important:** Email receipts require SMTP configuration to work properly.
+
+**Recommended SMTP Plugin:**
+Install **WP Mail SMTP** or **Easy WP SMTP**:
+
+1. Go to **Plugins → Add New**
+2. Search for "WP Mail SMTP"
+3. Install and activate
+4. Configure your SMTP settings:
+   - SMTP Host (e.g., smtp.gmail.com)
+   - SMTP Port (587 for TLS, 465 for SSL)
+   - SMTP Username (your email)
+   - SMTP Password
+5. Send a test email to verify
+
+**Alternative SMTP Services:**
+- Gmail SMTP
+- SendGrid
+- Mailgun
+- Amazon SES
+- Any SMTP service
+
+### Step 4: Create Your First Campaign
 
 1. Navigate to **Campaigns → Add New** (standard WordPress post editor)
 2. Enter a campaign title (e.g., "Emergency Relief Fund")
@@ -154,6 +179,8 @@ Replace `123` with your actual campaign ID.
 3. Fill in donor details
 4. Complete the checkout process
 5. Check that the email and PDF receipt were sent to Donor Email Address
+
+> **Note:** If emails are not being sent, verify your SMTP configuration. See [Troubleshooting](#troubleshooting) section.
 
 ### Step 6: View Analytics
 
@@ -229,6 +256,8 @@ Flexible donation forms with two deployment methods:
 ### 5. Automated Email & PDF Receipts
 
 Professional receipts sent automatically after every donation.
+
+> **⚠️ SMTP Required:** Email functionality requires SMTP configuration. Install a plugin like WP Mail SMTP.
 
 **Email Features:**
 - HTML email templates
@@ -1162,12 +1191,33 @@ DonorCore provides REST API endpoints and WordPress hooks for advanced customiza
 - No email notifications
 
 **Solutions:**
-1. **Test WordPress email:**
-   - Install WP Mail SMTP plugin
-   - Configure SMTP settings
-   - Send test email
 
-2. **Check Action Scheduler:**
+1. **⚠️ Configure SMTP (Most Common Issue):**
+
+   WordPress default mail function often fails. You MUST configure SMTP:
+   
+   **Install WP Mail SMTP Plugin:**
+   ```
+   Plugins → Add New → Search "WP Mail SMTP" → Install → Activate
+   ```
+   
+   **Configure SMTP Settings:**
+   - Go to **WP Mail SMTP → Settings**
+   - Choose mailer (Gmail, SendGrid, Mailgun, etc.)
+   - Enter SMTP credentials:
+     - SMTP Host: smtp.gmail.com (for Gmail)
+     - SMTP Port: 587 (TLS) or 465 (SSL)
+     - Username: your email
+     - Password: app-specific password
+   - Click **Save Settings**
+   - Send test email to verify
+
+2. **Test WordPress email:**
+   - In WP Mail SMTP, go to **Email Test** tab
+   - Send test email
+   - Check inbox and spam folder
+
+3. **Check Action Scheduler:**
    - Go to **WooCommerce → Status → Scheduled Actions**
    - Look for `dc_send_receipt` actions
    - Check if they completed or failed
